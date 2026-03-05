@@ -19,3 +19,9 @@ opt.colorcolumn = "180"
 if vim.env.TERM and vim.env.TERM:match "xterm" then
   vim.keymap.set({ "n", "v" }, "<Del>", "x", { noremap = true })
 end
+
+-- When opening a directory, cd into it so nvim-tree shows the right root
+local arg = vim.fn.argv(0)
+if arg ~= "" and vim.fn.isdirectory(arg) == 1 then
+  vim.cmd.cd(arg)
+end
