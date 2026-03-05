@@ -11,8 +11,8 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
--- load NvChad options & autocmds before plugins
-require "nvchad.options"
+-- load options before plugins
+pcall(require, "nvchad.options")
 require "options"
 
 -- load lazy.nvim with NvChad + custom plugins
@@ -67,12 +67,14 @@ require("lazy").setup({
   },
 })
 
--- load theme
-dofile(vim.g.base46_cache .. "defaults")
-dofile(vim.g.base46_cache .. "statusline")
+-- load theme (cache is built by base46 plugin; skip on first launch)
+local base46_ok, _ = pcall(dofile, vim.g.base46_cache .. "defaults")
+if base46_ok then
+  dofile(vim.g.base46_cache .. "statusline")
+end
 
 -- load NvChad mappings + custom mappings
-require "nvchad.mappings"
+pcall(require, "nvchad.mappings")
 require "mappings"
 
 -- source shared vimrc (for IdeaVim compatibility)
